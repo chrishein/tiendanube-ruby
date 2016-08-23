@@ -2,6 +2,8 @@
 
 Simple gem to provida a basic connection with the [TiendaNube API](https://github.com/tiendanube/api-docs) endpoints.
 
+This gem is a fork of MIT licensed version created originaly by Diego de Estrada and Nicolás Bares.
+
 ## Installation
 
 Add this line to your application's Gemfile:
