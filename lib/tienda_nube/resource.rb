@@ -102,7 +102,10 @@ module TiendaNube
   class ProductVariant < Resource::Base
     class << self
       attr_accessor :product_id
-      self.name = 'variants'
+
+      def name
+        "products/#{self.product_id}/variants"
+      end
     end
     def self.url(id = nil)
       url = "#{Resource.base_url}/products/#{self.product_id}/#{self.name}"
