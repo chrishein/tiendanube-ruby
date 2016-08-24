@@ -20,7 +20,8 @@ module TiendaNube
       result = {
         :status => [response.code, response.message],
         :headers => response.to_hash,
-        :body => JSON.parse(response.body)
+        :body => response.body && !response.body.empty? ? 
+          JSON.parse(response.body) : nil
       }
       if links = response["link"]
         result[:pages] = links.split(", ").inject({}) do |hash, link|
