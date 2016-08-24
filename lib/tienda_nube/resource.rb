@@ -100,6 +100,9 @@ module TiendaNube
   class Category < Resource::Base
     self.name = 'categories'
   end
+  class Customer < Resource::Base
+    self.name = 'customers'
+  end
   class ProductVariant < Resource::Base
     class << self
       attr_accessor :product_id
