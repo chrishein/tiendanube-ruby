@@ -84,9 +84,23 @@ module TiendaNube
       def self.from_url(url)
         Resource.get(url)
       end
-      # class BaseDependant < Base
-      #   def self.url(product_id, id=nil)
-      # end
+    end
+    class ProductBase < Base
+      class << self
+        attr_accessor :name
+        attr_accessor :product_id
+
+        def name
+          "products/#{self.product_id}/#{@name}"
+        end
+
+        def url(id = nil)
+          url = "#{Resource.base_url}/#{self.name}"
+          url = "#{url}/#{id}" if id
+          url
+        end
+
+      end
     end
   end
   class Store
@@ -103,18 +117,10 @@ module TiendaNube
   class Customer < Resource::Base
     self.name = 'customers'
   end
-  class ProductVariant < Resource::Base
-    class << self
-      attr_accessor :product_id
-
-      def name
-        "products/#{self.product_id}/variants"
-      end
-    end
-    def self.url(id = nil)
-      url = "#{Resource.base_url}/products/#{self.product_id}/#{self.name}"
-      url = "#{url}/#{id}" if id
-      return url
-    end
+  class ProductVariant < Resource::ProductBase
+    self.name = 'variants'
+  end
+  class ProductImage < Resource::ProductBase
+    self.name = 'images'
   end
 end
