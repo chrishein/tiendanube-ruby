@@ -117,6 +117,9 @@ module TiendaNube
   class Customer < Resource::Base
     self.name = 'customers'
   end
+  class Order < Resource::Base
+    self.name = 'orders'
+  end
   class ProductVariant < Resource::ProductBase
     self.name = 'variants'
   end
