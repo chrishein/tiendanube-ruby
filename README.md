@@ -9,7 +9,7 @@ This gem is a fork of MIT licensed version created originaly by Diego de Estrada
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'tienda_nube'
+gem 'tiendanube-ruby'
 ```
 
 And then execute:
@@ -18,11 +18,34 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install tienda_nube
+    $ gem install tiendanube-ruby
 
 ## Usage
 
-TODO: Write usage instructions here
+Authorize TiendaNube user and get Access Token:
+
+```ruby
+TiendaNube::Auth.config do |config|
+    config.client_id = 333
+    config.client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+end
+
+tiendanube_auth = TiendaNube::Auth.new
+tiendanube_auth.authorize_url # => 'https://www.tiendanube.com/apps/333/authorize'
+```
+
+Once the user has visitd the URL and authorized access, he is redirected to the redirect URL that the app owner
+defines when creating it, with the authorization code as a request parameter. Eg.:
+
+```
+http://localhost:3000/tn_auth?code=7777777777778888888888889999999999999999
+```
+Then, you can use that temporary authorization code to get a permanent access token.
+
+```ruby
+tiendanube_auth.get_access_token('7777777777778888888888889999999999999999')
+# => {:store_id=>88888, :access_token=>"abcd123abcd123abcd123abcd123abcd123abcd123", :scope=>"read_products,write_products,read_customers,read_orders"}
+```
 
 ## Development
 
