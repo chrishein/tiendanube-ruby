@@ -22,6 +22,8 @@ Or install it yourself as:
 
 ## Usage
 
+### Authorization
+
 Authorize TiendaNube user and get Access Token:
 
 ```ruby
@@ -45,6 +47,51 @@ Then, you can use that temporary authorization code to get a permanent access to
 ```ruby
 tiendanube_auth.get_access_token('7777777777778888888888889999999999999999')
 # => {:store_id=>88888, :access_token=>"abcd123abcd123abcd123abcd123abcd123abcd123", :scope=>"read_products,write_products,read_customers,read_orders"}
+```
+
+### Client API 
+
+```ruby
+store_id = 333
+access_token = 'abcd123abcd123abcd123abcd123abcd123abcd123'
+client = TiendaNube::Api::Client.new(store_id, access_token)
+
+# Get Store information
+client.store.get
+# => {
+#       "address": null,
+#       "admin_language": "pt",
+#       "blog": null,
+#       "business_id": null,
+#       "business_name": null,
+#       "business_address": null,
+#       ...
+#   }
+ 
+# Get all products
+client.product.all
+# => {
+#       "name": {
+#           "en": "Master Ball",
+#           "es": "Master Ball",
+#           "pt": "Master Ball"
+#       },
+#       "published": true,
+#       "free_shipping": false,
+#       "updated_at": "2013-03-11T09:14:11-03:00",
+#       "variants": [
+#       ...
+# }
+
+
+product_id = 767676
+# Get all product images
+client.product_image.all(product_id)
+
+# Get a single image from a product
+product_image_id = 878787
+client.product_image.get(product_id, product_image_id)
+
 ```
 
 ## Development
