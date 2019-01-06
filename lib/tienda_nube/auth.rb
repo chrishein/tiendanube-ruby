@@ -13,18 +13,10 @@ module TiendaNube
     SCOPE = "scope".freeze
     SERVER_ERROR_MESSAGE = "server error".freeze
     ERROR_DESCRIPTION = "error_description".freeze
-
-    class << self
-      attr_accessor :client_id, :client_secret
-    end
-
-    def self.config
-      yield self
-    end
-
-    def initialize(country = :ar)
-      @client_id = Auth.client_id
-      @client_secret = Auth.client_secret
+    
+    def initialize(client_id, client_secret, country = :ar)
+      @client_id = client_id
+      @client_secret = client_secret
       @country = country
     end
 
