@@ -16,8 +16,6 @@ module TiendaNube
                 @access_token = access_token
                 @api_url = TiendaNube::API_URL
                 @api_version = TiendaNube::API_VERSION
-
-                puts "init!"
             end
 
             def all(query = {})
