@@ -2,6 +2,7 @@ module TiendaNube
   module Resource
     AUTHENTICATION_HEADER = 'Authentication'.freeze
     CONTENT_TYPE_HEADER = 'Content-Type'.freeze
+    USER_AGENT_HEADER = 'User-Agent'.freeze
     CONTENT_TYPE_JSON = 'application/json'.freeze
     HTTPS = 'https'.freeze
     LINK = 'link'.freeze
@@ -13,6 +14,7 @@ module TiendaNube
     def send_request(uri, request)
       request[AUTHENTICATION_HEADER] = "bearer #{@access_token}"
       request[CONTENT_TYPE_HEADER] = CONTENT_TYPE_JSON
+      request[USER_AGENT_HEADER] = @user_agent unless @user_agent.nil?
       response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == HTTPS) do |http|
         http.request request
       end

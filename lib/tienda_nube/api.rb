@@ -9,13 +9,14 @@ module TiendaNube
                 attr_accessor :name
             end
 
-            attr_accessor :api_url, :api_version, :store_id, :access_token
+            attr_accessor :api_url, :api_version, :store_id, :access_token, :user_agent
 
-            def initialize(store_id, access_token)
+            def initialize(store_id, access_token, user_agent = nil)
                 @store_id = store_id
                 @access_token = access_token
                 @api_url = TiendaNube::API_URL
                 @api_version = TiendaNube::API_VERSION
+                @user_agent = user_agent
             end
 
             def all(query = {})

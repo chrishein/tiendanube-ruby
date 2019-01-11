@@ -13,10 +13,13 @@ module TiendaNube
     SCOPE = "scope".freeze
     SERVER_ERROR_MESSAGE = "server error".freeze
     ERROR_DESCRIPTION = "error_description".freeze
+    USER_AGENT_HEADER = 'User-Agent'.freeze
+    HTTPS = 'https'.freeze
     
-    def initialize(client_id, client_secret, country = :ar)
+    def initialize(client_id, client_secret, user_agent = nil, country = :ar)
       @client_id = client_id
       @client_secret = client_secret
+      @user_agent = user_agent
       @country = country
     end
 
@@ -33,12 +36,18 @@ module TiendaNube
       }
 
       uri = URI([AUTH_URL[@country], AUTHORIZE_TOKEN_PATH].join(PATH_JOIN_CHAR))
-      request = Net::HTTP.post_form(uri ,params)
+      request = Net::HTTP::Post.new uri
+      request.set_form_data(params)
 
-      if request.code != HTTP_CODE_200
+      request[USER_AGENT_HEADER] = @user_agent unless @user_agent.nil?
+      response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == HTTPS) do |http|
+        http.request request
+      end
+
+      if response.code != HTTP_CODE_200
         return { :error => SERVER_ERROR_MESSAGE }
       else
-        json = JSON.parse(request.body)
+        json = JSON.parse(response.body)
         if json[ERROR_DESCRIPTION]
           { :error => json[ERROR_DESCRIPTION] }
         else
