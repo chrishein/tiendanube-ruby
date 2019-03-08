@@ -15,9 +15,11 @@ module TiendaNube
       request[AUTHENTICATION_HEADER] = "bearer #{@access_token}"
       request[CONTENT_TYPE_HEADER] = CONTENT_TYPE_JSON
       request[USER_AGENT_HEADER] = @user_agent unless @user_agent.nil?
-      response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == HTTPS) do |http|
-        http.request request
-      end
+      
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == HTTPS
+      http.set_debug_output($stdout) if ENV['TIENDANUBE_DEBUG_REQUESTS']
+      response = http.request(request)
 
       result = {
         :status => [response.code, response.message],
@@ -26,7 +28,7 @@ module TiendaNube
           JSON.parse(response.body) : nil
       }
 
-      if links = response[LINK]
+      unless (links = response[LINK]).nil?
         result[:pages] = links.split(", ").inject({}) do |hash, link|
           array = link.split("; ")
           hash[$1] = array[0].gsub(/^<(.*)>$/, '\1') if array[1].match(/rel=\"([a-z]+)\"/)
