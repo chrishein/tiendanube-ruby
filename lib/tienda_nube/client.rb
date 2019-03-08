@@ -33,7 +33,7 @@ module TiendaNube
                 @product_image ||= ProductImage.new(@store_id, @access_token, @user_agent)
             end
 
-            def product_variamt
+            def product_variant
                 @product_variant ||= ProductVariant.new(@store_id, @access_token, @user_agent)
             end
         end
