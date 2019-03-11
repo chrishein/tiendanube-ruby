@@ -36,6 +36,10 @@ module TiendaNube
             def product_variant
                 @product_variant ||= ProductVariant.new(@store_id, @access_token, @user_agent)
             end
+
+            def webhook
+                @webhook ||= Webhook.new(@store_id, @access_token, @user_agent)
+            end
         end
     end
 end

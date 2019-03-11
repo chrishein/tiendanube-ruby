@@ -100,9 +100,14 @@ module TiendaNube
 
         class ProductVariant < Api::ProductBase
             self.name = 'variants'.freeze
-          end
-          class ProductImage < Api::ProductBase
-            self.name = 'images'.freeze
-          end
+        end
+
+        class ProductImage < Api::ProductBase
+          self.name = 'images'.freeze
+        end
+
+        class Webhook < Api::Base
+          self.name = 'webhooks'.freeze
+        end
     end
 end
